@@ -13,8 +13,8 @@ RUN gpg --keyserver=keyserver.ubuntu.com --receive-keys A4B469963BF863CC \
     && gpg --export A4B469963BF863CC > /etc/apt/trusted.gpg.d/cuda.gpg
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        python3.8 python3-pip python3-opencv python3-pil \
-        python3.8-dev libvulkan-dev glslang-dev glslang-tools \
+        python3.9 python3-pip python3-opencv python3-pil \
+        python3.9-dev libvulkan-dev glslang-dev glslang-tools \
         build-essential swig \
     && pip wheel -w /wheels wheel pdm-pep517 .
 
@@ -33,7 +33,7 @@ COPY --from=builder /wheels /wheels
 COPY . /video2x
 WORKDIR /video2x
 RUN apt-get install -y --no-install-recommends \
-        python3-pip python3.8-dev \
+        python3-pip python3.9-dev \
         python3-opencv python3-pil \
         mesa-vulkan-drivers cuda-drivers ffmpeg \
     && pip install --no-cache-dir --no-index -f /wheels . \
