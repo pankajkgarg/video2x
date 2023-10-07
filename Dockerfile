@@ -16,7 +16,7 @@ RUN apt-get update \
         python3.9 python3-pip python3-opencv python3-pil \
         python3.9-dev libvulkan-dev glslang-dev glslang-tools \
         build-essential swig \
-    && pip wheel -w /wheels wheel pdm-pep517 .
+    && python3.9 -m pip wheel -w /wheels wheel pdm-pep517 .
 
 # stage 2: install wheels into the final image
 FROM docker.io/nvidia/vulkan:1.3-470
@@ -36,9 +36,9 @@ RUN apt-get install -y --no-install-recommends \
         python3-pip python3.9-dev \
         python3-opencv python3-pil \
         mesa-vulkan-drivers cuda-drivers ffmpeg \
-    && pip install --no-cache-dir --no-index -f /wheels . \
+    && python3.9 -m pip install --no-cache-dir --no-index -f /wheels . \
     && apt-get clean \
     && rm -rf /wheels /video2x /var/lib/apt/lists/*
 
 WORKDIR /host
-ENTRYPOINT ["/usr/bin/python3.8", "-m", "video2x"]
+ENTRYPOINT ["/usr/bin/python3.9", "-m", "video2x"]
